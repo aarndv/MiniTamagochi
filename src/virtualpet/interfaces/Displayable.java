@@ -9,11 +9,11 @@ public interface Displayable {
      * 
      * @return A multi-line art containing the status.
      */
-    public String getStatusString();
+    public abstract String getStatusString();
     /**
      * Gets a multi-line ASCII art string representing the object in a specific state.
      * @param state The state to display (e.g., "happy", "sleeping", "dead").
      * @return A multi-line string containing the ASCII art.
      */
-    public String getASCIIDisplay(String state);
+    public abstract String getASCIIDisplay(String state);
 }
