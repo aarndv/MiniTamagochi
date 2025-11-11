@@ -1,8 +1,7 @@
 package virtualpet.models.Items;
 
-import virtualpet.interfaces.InsufficientEnergyException;
-import virtualpet.interfaces.Pet;
-import virtualpet.interfaces.PetIsAsleepException;
+import virtualpet.exceptions.InsufficientEnergyException;
+import virtualpet.exceptions.PetIsAsleepException;
 import virtualpet.models.Item;
 import virtualpet.models.Pet;
 
@@ -14,10 +13,6 @@ public class Toy extends Item {
 		
 	}
 
-	@Override
-	public void use(virtualpet.interfaces.Pet target) throws PetIsAsleepException, InsufficientEnergyException {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 }

@@ -1,5 +1,9 @@
 package virtualpet.interfaces;
 
+import virtualpet.exceptions.InsufficientEnergyException;
+import virtualpet.exceptions.PetIsAsleepException;
+import virtualpet.models.Pet;
+
 /**
  * Represents an item that can be used by the player on a Pet.
  */

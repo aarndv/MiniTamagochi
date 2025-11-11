@@ -7,4 +7,10 @@ import virtualpet.models.Pet;
 
 public class Food extends Item {
 
+	@Override
+	public void use(Pet target) throws PetIsAsleepException, InsufficientEnergyException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -4,5 +4,5 @@
 /**
  * 
  */
-module MiniTagamochi {
+module MiniTamagochi {
 }
