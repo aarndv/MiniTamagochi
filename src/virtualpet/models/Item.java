@@ -14,12 +14,17 @@ public abstract class Item implements Interactable {
     /** A brief description of the item. */
     protected String description; 
 
+    public Item(String itemName, String description) {
+        this.itemName = itemName;
+        this.description = description;
+    }
+
     /**
      * Gets the item's name.
      * @return The name of the item.
      */
-    protected String getItemName() {
-        return null;
+    public String getItemName() {
+        return this.itemName;
     }
 
     /**

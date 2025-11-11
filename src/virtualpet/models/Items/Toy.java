@@ -7,6 +7,15 @@ import virtualpet.models.Pet;
 
 public class Toy extends Item {
 	protected int happinessValue;
+
+	public Toy(String name, String desc, int value) {
+		super(name, desc);
+		this.happinessValue = value;
+	}
+
+	public int getHappinessValue() {
+		return this.happinessValue;
+	}
 	
 	/**
 	 * Implements the use action for a Toy. Calls the pet's playWith() method.
