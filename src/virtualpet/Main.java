@@ -243,3 +243,4 @@ public class Main {
     void handleShop() {
         System.out.println("Not implemented yet.");
     }
+}
