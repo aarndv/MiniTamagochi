@@ -14,9 +14,12 @@ public abstract class Item implements Interactable {
     /** A brief description of the item. */
     protected String description; 
 
-    public Item(String itemName, String description) {
+    protected int price;
+
+    public Item(String itemName, String description, int price) {
         this.itemName = itemName;
         this.description = description;
+        this.price = price;
     }
 
     /**
@@ -30,6 +33,12 @@ public abstract class Item implements Interactable {
     public String getItemDescription() {
         return this.description;
     }
+
+    public int getPrice() {
+        return this.price;
+    }
+
+    public abstract int getEffectValue();
 
     /**
      * (Abstract) Must be implemented by subclasses to define what this

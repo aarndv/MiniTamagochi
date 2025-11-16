@@ -8,8 +8,8 @@ import virtualpet.models.Pet;
 public class Toy extends Item {
 	protected int happinessValue;
 
-	public Toy(String name, String desc, int value) {
-		super(name, desc);
+	public Toy(String name, String desc, int price, int value) {
+		super(name, desc, price);
 		this.happinessValue = value;
 	}
 
@@ -23,7 +23,13 @@ public class Toy extends Item {
 	 * @throws PetIsAsleepException If the pet is sleeping.
 	 * @throws InsufficientEnergyException If the pet is too tired to play.
 	 */
+	@Override
 	public void use(Pet target) throws PetIsAsleepException, InsufficientEnergyException {
-		return;
+		target.playWith(this);
+	}
+
+	@Override 
+	public int getEffectValue() {
+		return happinessValue;
 	}
 }

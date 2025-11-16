@@ -7,8 +7,8 @@ import virtualpet.models.Pet;
 public class Food extends Item {
 	protected int hungerValue;
 
-	public Food(String name, String desc, int value) {
-		super(name, desc);
+	public Food(String name, String desc, int price, int value) {
+		super(name, desc, price);
 		this.hungerValue = value;
 	}
 
@@ -24,5 +24,10 @@ public class Food extends Item {
 	@Override
 	public void use(Pet target) throws PetIsAsleepException {
 		target.eat(this);
+	}
+
+	@Override
+	public int getEffectValue() {
+		return hungerValue;
 	}
 }

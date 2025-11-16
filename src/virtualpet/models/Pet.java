@@ -125,7 +125,7 @@ public abstract class Pet implements Displayable {
             throw new InsufficientEnergyException(this.name + " is too tired to play.");
         }
         this.energy -= 10;
-        this.happiness = Math.min(this.maxHappiness, this.happiness + toy.getHappinessValue())
+        this.happiness = Math.min(this.maxHappiness, this.happiness + toy.getHappinessValue());
     }
     
     /**
@@ -150,6 +150,7 @@ public abstract class Pet implements Displayable {
     public boolean isBored() { return this.happiness <= this.maxHappiness * 0.50; }
     public boolean isAlive() { return this.isAlive; }
     public String getName() { return this.name; }
+    public int getHappiness() { return this.happiness; }
 
     /**
      * Generates a formatted string of the pet's core stats (e.g., Hunger: 5/10).

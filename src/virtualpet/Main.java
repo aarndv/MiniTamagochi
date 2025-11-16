@@ -15,6 +15,8 @@ import java.util.Scanner;
 public class Main {
     private Pet playerPet;
     private List<Interactable> inventory; 
+    private List<Food> availableFoods = new ArrayList<>();
+    private List<Toy> availableToys = new ArrayList<>();
     private Scanner scanner;
     private boolean isGameRunning;
     private int playerMoney;
@@ -33,6 +35,17 @@ public class Main {
         this.scanner = new Scanner(System.in);
         this.isGameRunning = true;
         this.inventory = new ArrayList<>();
+
+        availableFoods.add(new Food("Kibble", "Basic pet food.", 10, 25));
+        availableFoods.add(new Food("Treat", "A tasty snack.", 5, 10));
+        availableFoods.add(new Food("Canned Food", "Millenium Tuna in a can.", 20, 40));
+        availableFoods.add(new Food("Fish", "A fish caught by Jax", 30, 50));
+        availableFoods.add(new Food("Bugs", "Tasty for amphibians.", 10, 30));
+        availableToys.add(new Toy("Ball", "A simple rubber ball.", 15, 15));
+        availableToys.add(new Toy("Bone", "A sturdy bone.", 20, 25));
+        availableToys.add(new Toy("Rope", "Ideal for tug of war.", 25, 35));
+        availableToys.add(new Toy("Plushy", "Adorable toy for", 15, 20));
+        availableToys.add(new Toy("Laser Pointer", "Distract them with a red light.", 20, 30));
         playerMoney = 200;
 
         System.out.println("Welcome to Virtual Pet Simulator!");
@@ -75,12 +88,9 @@ public class Main {
                 break;
         }
 
-        this.inventory.add(new Food("Kibble", "Basic pet food.", 25));
-        this.inventory.add(new Food("Treat", "A tasty snack.", 10));
-        // TODO: Add three other foods 
-
-        this.inventory.add(new Toy("Ball", "A simple rubber ball.", 15));
-        // TODO: Add four other toys
+        this.inventory.add(new Food("Kibble", "Basic pet food.", 10, 25));
+        this.inventory.add(new Food("Treat", "A tasty snack.", 5, 10));
+        this.inventory.add(new Toy("Ball", "A simple rubber ball.", 15, 15));
 
         System.out.println("\nCongratulations! You've adopted " + playerPet.getName() + " the " + playerPet.getPetType() + "!");
         System.out.println("Press Enter to begin...");
@@ -198,6 +208,7 @@ public class Main {
      * from the inventory and uses the selected food on the pet.
      */
     void handleFeed() {
+        int exitChoice=0;
         System.out.println("What food will you give?");
 
         List<Food> foodItems = new ArrayList<>();
@@ -213,15 +224,25 @@ public class Main {
         }
 
         for (int i = 0; i < foodItems.size(); i++) {
-            System.out.println((i + 1) + ". " + foodItems.get(i).getItemName());
+            Food food = foodItems.get(i);
+            System.out.println((i + 1) + ". " + food.getItemName() + 
+                " - " + food.getItemDescription() + " (+" + food.getEffectValue() +
+                " happiness)"
+            );
+            exitChoice++;
         }
+        System.out.println((exitChoice + 1) + ". Exit");
 
         System.out.println("Enter choice: ");
         int choice = scanner.nextInt();
         scanner.nextLine(); 
 
-        if (choice < 1 || choice > foodItems.size()) {
-            System.out.println("Invalid choice.");;
+        if (choice < 1 || choice > foodItems.size() + 1) {
+            System.out.println("Invalid choice.");
+            return;
+        }
+
+        if (choice == foodItems.size() + 1) {
             return;
         }
 
@@ -241,10 +262,57 @@ public class Main {
      * from the inventory and uses the selected toy on the pet.
      */
     void handlePlay() {
-        System.out.println("Not implemented yet.");
-        // TODO: 
-    }
+        int exitChoice=0;
+        final int ENERGY_COST = 10;
+        System.out.println("What toy will you play with?");
 
+        List<Toy> toyItems = new ArrayList<>();
+        for (Interactable item : this.inventory) {
+            if (item instanceof Toy) {
+                toyItems.add( (Toy) item);
+            }
+        }
+
+        if (toyItems.isEmpty()) {
+            System.out.println("You have no toys!");
+            return;
+        }
+
+        for (int i = 0; i < toyItems.size(); i++) {
+            Toy toy = toyItems.get(i); 
+            System.out.println((i + 1) + ". " + toy.getItemName() + 
+                " - " + toy.getItemDescription() + " (+" + toy.getEffectValue() +
+                " happiness, -" + ENERGY_COST + " energy)"
+            );
+            exitChoice++;
+        }
+        System.out.println((exitChoice + 1) + ". Exit");
+        
+        System.out.println("Enter choice: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        if (choice < 1 || choice > toyItems.size() + 1) {
+            System.out.println("Invalid choice.");
+            return;
+        }
+
+        if (choice == toyItems.size() + 1) {
+            return;
+        }
+
+        Toy chosenToy = toyItems.get(choice - 1);
+
+        try {
+            chosenToy.use(this.playerPet); 
+            System.out.println(playerPet.getName() + " played with the " + chosenToy.getItemName() + "." );
+            inventory.remove(chosenToy);
+        } catch (PetIsAsleepException e) {
+            System.out.println(e.getMessage());
+        } catch (InsufficientEnergyException e) {
+            System.out.println(e.getMessage());
+        }
+    }
     /**
      * Manages the "Shop" action. Displays a sub-menu of available 
      * toys and food and appends it to the inventory if bought.
@@ -252,6 +320,122 @@ public class Main {
      * money.
      */
     void handleShop() {
-        System.out.println("Not implemented yet.");
+        boolean isShopping = true;
+
+        while (isShopping) {
+            int categoryChoice = 0;
+            System.out.println("\n--- Welcome to the Pet Shop ---");
+            System.out.println("You have: Php " + this.playerMoney);
+            System.out.println("---------------------------------");
+            System.out.println("What would you like to buy?");
+            System.out.println("[1] - Food");
+            System.out.println("[2] - Toys");
+            System.out.println("[3] - Back to main menu");
+            System.out.println("Enter choice: ");
+
+            if (scanner.hasNextInt()) {
+                categoryChoice = scanner.nextInt();
+            } else {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.next();
+                continue;
+            }
+            scanner.nextLine();
+
+            switch (categoryChoice) {
+                case 1:
+                    System.out.println("\n--- Food Items ---");
+                    for (int i = 0; i < availableFoods.size(); i++) {
+                        Food food = availableFoods.get(i);
+                        System.out.println("[" + (i + 1) + "] " + food.getItemName()
+                            + " - " + food.getItemDescription() + " - Php "
+                            + food.getPrice()
+                        );
+                    }
+                    System.out.println("[" + (availableFoods.size() + 1) + "] Back to shop menu");
+
+                    System.out.println("Enter choice: ");
+                    int foodChoice = scanner.nextInt();
+                    scanner.nextLine();
+
+                    if (foodChoice > 0 && foodChoice <= availableFoods.size()) {
+                        int itemIndex = foodChoice - 1;
+                        Food selectedFood = availableFoods.get(itemIndex);
+                        int price = selectedFood.getPrice(); 
+
+                        if (this.playerMoney >= price) {
+                            this.playerMoney -= price;
+                            this.inventory.add(new Food(
+                                selectedFood.getItemName(),
+                                selectedFood.getItemDescription(),
+                                selectedFood.getPrice(),
+                                selectedFood.getHungerValue()
+                            ));
+
+                            availableFoods.remove(itemIndex);
+                            System.out.println("You bought " + selectedFood.getItemName() + " for Php " + price + "!");
+                        } else {
+                            System.out.println("Insufficient Balance.");
+                        }
+                    } else if (foodChoice == availableFoods.size() + 1) {
+                        break;           
+                    } else {
+                        System.out.println("Invalid choice.");
+                    }
+                    break;
+                case 2:
+                    System.out.println("\n--- Toy Items ---");
+                    for (int i = 0; i < availableToys.size(); i++) {
+                        Toy toy = availableToys.get(i);
+                        System.out.println("[" + (i + 1) + "]" + toy.getItemName()
+                            + " - " + toy.getItemDescription() + " - Php "
+                            + toy.getPrice()
+                        );
+                    }
+                    System.out.println("[" + (availableToys.size() + 1) + "] Back to shop menu");
+
+                    System.out.println("Enter choice: ");
+                    int toyChoice = scanner.nextInt();
+                    scanner.nextLine();
+
+                    if (toyChoice > 0 && toyChoice <= availableToys.size()) {
+                        int itemIndex = toyChoice - 1;
+                        Toy selectedToy = availableToys.get(itemIndex);
+                        int price = selectedToy.getPrice();
+
+                        if (this.playerMoney >= price) {
+                            this.playerMoney -= price;
+
+                            this.inventory.add(new Toy(
+                                selectedToy.getItemName(), 
+                                selectedToy.getItemDescription(), 
+                                selectedToy.getPrice(), 
+                                selectedToy.getHappinessValue()
+                            ));
+                            availableToys.remove(itemIndex);
+                            System.out.println("You bought " + selectedToy.getItemName() + " for Php " + price + "!");
+                        } else {
+                            System.out.println("Insufficient Balance.");
+                        }
+                    } else if (toyChoice == availableToys.size() + 1) {
+                        break;
+                    } else {
+                        System.out.println("Invalid choice.");
+                    }
+                    break;
+                case 3:
+                    isShopping = false;
+                    System.out.println("Leaving the shop...");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+
+            if (categoryChoice != 3) {
+                System.out.println("Press Enter to continue...");
+                scanner.nextLine();
+            }
+        }
     }
 }
