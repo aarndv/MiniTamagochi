@@ -46,7 +46,7 @@ public class Main {
         availableToys.add(new Toy("Rope", "Ideal for tug of war.", 25, 35));
         availableToys.add(new Toy("Plushy", "Adorable toy for", 15, 20));
         availableToys.add(new Toy("Laser Pointer", "Distract them with a red light.", 20, 30));
-        playerMoney = 200;
+        playerMoney = 150;
 
         System.out.println("Welcome to Virtual Pet Simulator!");
         System.out.println("It's time to adopt a new pet.");
@@ -227,7 +227,7 @@ public class Main {
             Food food = foodItems.get(i);
             System.out.println((i + 1) + ". " + food.getItemName() + 
                 " - " + food.getItemDescription() + " (+" + food.getEffectValue() +
-                " happiness)"
+                " energy)"
             );
             exitChoice++;
         }
@@ -387,7 +387,7 @@ public class Main {
                     System.out.println("\n--- Toy Items ---");
                     for (int i = 0; i < availableToys.size(); i++) {
                         Toy toy = availableToys.get(i);
-                        System.out.println("[" + (i + 1) + "]" + toy.getItemName()
+                        System.out.println("[" + (i + 1) + "] " + toy.getItemName()
                             + " - " + toy.getItemDescription() + " - Php "
                             + toy.getPrice()
                         );
