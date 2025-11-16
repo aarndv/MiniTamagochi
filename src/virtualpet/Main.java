@@ -138,6 +138,8 @@ public class Main {
         System.out.println(this.playerPet.getASCIIDisplay(state));
 
         System.out.println(this.playerPet.getStatusString());
+        if (state == "default") 
+        	System.out.println('\n' + this.playerPet.makeSound());
         System.out.println("-----------------------------------------------------------------");
     }
 
