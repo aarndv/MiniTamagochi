@@ -85,7 +85,7 @@ public class Frog extends Pet {
 }
 
 /*
-frog for safekeeping (change only to xx when dead and -- when sleep)
+Artistic frog for safekeeping (change only to xx when dead and -- when sleep)
 				"  (◐)-(◑)  \n" +
 				" (   \"   )   \n" +
 				"/|  >  <  |\\ \n" +
