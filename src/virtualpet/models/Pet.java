@@ -16,7 +16,7 @@ public abstract class Pet implements Displayable {
     /** The pet's Given name */
     protected String name;
     
-    /** The pet's current hunger leve. 0 is starving. */
+    /** The pet's current hunger level. 0 is starving. */
     protected int hunger;
 
     /** The maximum hunger level. */
@@ -142,6 +142,12 @@ public abstract class Pet implements Displayable {
         this.isAsleep = false;
     }
 
+    /**
+     * Getters
+     */
+    public boolean isHungry() { return this.hunger <= this.maxHunger * 0.50; } 
+    public boolean isTired() { return this.energy <= this.maxEnergy * 0.40; }
+    public boolean isBored() { return this.happiness <= this.maxHappiness * 0.50; }
     public boolean isAlive() { return this.isAlive; }
     public String getName() { return this.name; }
 

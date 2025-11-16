@@ -27,6 +27,10 @@ public abstract class Item implements Interactable {
         return this.itemName;
     }
 
+    public String getItemDescription() {
+        return this.description;
+    }
+
     /**
      * (Abstract) Must be implemented by subclasses to define what this
      * item does when used on a pet.

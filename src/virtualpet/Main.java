@@ -66,10 +66,10 @@ public class Main {
                 this.playerPet = new Cat(petName);
                 break;
             case 2:
-                // this.playerPet = new Dog(petName);
+                this.playerPet = new Dog(petName);
                 break;
             case 3:
-                // this.playerPet = new Frog(petName);
+                this.playerPet = new Frog(petName);
                 break;
             default:
                 break;
@@ -94,8 +94,17 @@ public class Main {
      */
     void runGameLoop() {
         try {
-            while (this.isGameRunning && this.playerPet.isAlive()) {
-                displayPetStatus("default"); 
+            while (this.isGameRunning && this.playerPet.isAlive()) { 
+                if (this.playerPet.isTired()) {
+                    displayPetStatus("tired");
+                } else if (this.playerPet.isHungry()) {
+                    displayPetStatus("hungry");
+                } else if (this.playerPet.isBored()) {
+                    displayPetStatus("bored");
+                } else {
+                    displayPetStatus("default"); 
+                } 
+                
                 int choice = displayMainMenu();
                 processUserChoice(choice);
 
@@ -142,7 +151,7 @@ public class Main {
         System.out.println("[1] Feed");
         System.out.println("[2] Play");
         System.out.println("[3] Put to Sleep");
-        System.out.println("[4] Put to Sleep");
+        System.out.println("[4] Shop");
         System.out.println("[5] Skip turn");
         System.out.println("[6] Exit Game");
         System.out.print("Enter choice: ");
